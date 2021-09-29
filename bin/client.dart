@@ -25,20 +25,20 @@ class Client {
       print('👉 1: View all products');
       print('👉 2: Add new product');
       print('👉 3: Edit product');
-      print('👉 4: Get product by id');
+      print('👉 4: Get product');
       print('👉 5: Delete product \n');
       print('👉 6: View all categories');
       print('👉 7: Add new category');
       print('👉 8: Edit category');
       print('👉 9: Get category');
-      print('👉 10: Get all products from given category');
-      print('👉 11: Delete category \n');
+      print('👉 10: Delete category \n');
+      print('👉 11: Get all products of given category');
+
 
       var option = int.parse(stdin.readLineSync()!);
 
       switch (option) {
         case 1:
-            items.clear();
             response = await stub!.getAllItems(Empty());
           print(' --- Store products --- ');
           response.items.forEach((item) {
@@ -46,20 +46,68 @@ class Client {
           });
           break;
         case 2:
-          print('not implemented yet');
+          print('Enter product name');
+          var name = stdin.readLineSync()!;
+          var item = await _findItemByName(name);
+          if(item.id != 0){
+            print('🔴 product already exists: name ${item.name} | id: ${item.id} ');
+          }else{
+             print('Enter product\'s category name');
+          var categoryName = stdin.readLineSync()!;
+          var category = await _findCategoryByName(categoryName);
+          if(category.id == 0){
+            print('🔴 category $categoryName does not exists, try creating it first');
+          }else{
+           item = Item()
+           ..name = name
+           ..id = _randomId()
+           ..categoryId = category.id;
+           response = await stub!.createItem(item);
+        print('✅ product created | name ${response.name} | id ${response.id} | category id ${response.categoryId}');
+          }
+
+          }
+
 
           break;
 
         case 3:
-          print('not implemented yet');
-
+         print('Enter product name');
+          var name = stdin.readLineSync()!;
+          var item = await _findItemByName(name);
+          if(item.id != 0){
+            print('Enter new product name');
+           name = stdin.readLineSync()!;
+           response = await stub!.editItem(Item(id: item.id, name: name, categoryId: item.categoryId));
+           if(response.name == name){
+           print('✅ product updated | name ${response.name} | id ${response.id}');
+           }else{
+            print('🔴 product update failed 🥲');
+           }
+          }else{
+            print('🔴 product $name not found, try creating it!');
+          }
           break;
         case 4:
-          print('not implemented yet');
-
+                 print('Enter product name');
+          var name = stdin.readLineSync()!;
+          var item = await _findItemByName(name);
+          if(item.id != 0){
+            print('✅ product found | name ${item.name} | id ${item.id} | category id ${item.categoryId}');
+          }else{
+            print('🔴 product not found | no product matches the name $name');
+          }
           break;
         case 5:
-          print('not implemented yet');
+             print('Enter product name');
+          var name = stdin.readLineSync()!;
+          var item = await _findItemByName(name);
+          if(item.id != 0){
+            await stub!.deleteItem(item);
+            print('✅ item deleted');
+          }else{
+            print('🔴 product $name does not exist ');
+          }
 
           break;
         case 6:
@@ -72,39 +120,77 @@ class Client {
           break;
         case 7:
           print('Enter category name');
-          var category = 
+          var name = stdin.readLineSync()!;
+          var category = await _findCategoryByName(name);
+          if(category.id != 0){
+            print('🔴 category already exists: category ${category.name} (id: ${category.id})');
+          }else{
+            category = 
           Category()
           ..id = Random(999).nextInt(9999)
-          ..name =
-          stdin.readLineSync()!;
+          ..name = name;
           response = await stub!.createCategory(category);
-            print('category ${category.name} (id: ${category.id}) created 🔥');
+            print('✅ category created: name ${category.name} (id: ${category.id})');
+          }
           break;
         case 8:
-          print('not implemented yet');
+              print('Enter category name');
+          var name = stdin.readLineSync()!;
+          var category = await _findCategoryByName(name);
+          if(category.id != 0){
+            print('Enter new category name');
+           name = stdin.readLineSync()!;
+           response = await stub!.editCategory(Category(id: category.id, name: name));
+           if(response.name == name){
+                         print('✅ category updated | name ${response.name} | id ${response.id}');
+
+           }else{
+            print('🔴 category update failed 🥲');
+
+           }
+
+          }else{
+            print('🔴 category $name not found, try creating it!');
+          }
 
           break;
         case 9:
           print('Enter category name');
           var name = stdin.readLineSync()!;
-          var category = 
-          Category()
-          ..name = name
-          ;
-          response = await stub!.getCategory(category);
-          if(response.id != 0){
-            print('✅ category found | name ${response.name} | id ${response.id}');
+          var category = await _findCategoryByName(name);
+          if(category.id != 0){
+            print('✅ category found | name ${category.name} | id ${category.id}');
           }else{
             print('🔴 category not found | no category matches the name $name');
           }
 
           break;
         case 10:
-          print('not implemented yet');
-
+          print('Enter category name');
+          var name = stdin.readLineSync()!;
+          var category = await _findCategoryByName(name);
+          if(category.id != 0){
+            await stub!.deleteCategory(category);
+            print('✅ category deleted');
+          }else{
+            print('🔴 category $name not found ');
+          }
           break;
         case 11:
-          print('not implemented yet');
+           print('Enter category name');
+          var name = stdin.readLineSync()!;
+          var category = await _findCategoryByName(name);
+          if(category.id != 0){
+            var _result = await stub!.getItemsByCategory(category);
+            print('--- all products of the $name category --- ');
+
+            _result.items.forEach((item) { 
+                         print('👉 ${item.name}');
+            });
+          }else{
+            print('🔴 category $name not found');
+
+          }
 
           break;
         default:
@@ -120,6 +206,26 @@ class Client {
 
     await channel!.shutdown();
   }
+
+  Future<Category> _findCategoryByName(String name)async {
+    var category = 
+          Category()
+          ..name = name
+          ;
+          category = await stub!.getCategory(category);
+          return category;
+  }
+
+    Future<Item> _findItemByName(String name)async {
+    var item = 
+          Item()
+          ..name = name
+          ;
+          item = await stub!.getItem(item);
+          return item;
+  }
+
+  int _randomId() => Random(1000).nextInt(9999);
 }
 
 main() {
