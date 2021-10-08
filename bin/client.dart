@@ -49,6 +49,11 @@ class Client {
         case 5:
           break;
         case 6:
+           response = await stub!.getAllCategories(Empty());
+          print(' --- Store product categories --- ');
+          response.categories.forEach((category) {
+            print('👉: ${category.name} (id: ${category.id})');
+          });
           break;
         case 7:
               print('Enter category name');

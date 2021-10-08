@@ -36,10 +36,8 @@ class GroceriesService extends GroceriesServiceBase{
   }
 
   @override
-  Future<Categories> getAllCategories(ServiceCall call, Empty request) {
-    // TODO: implement getAllCategories
-    throw UnimplementedError();
-  }
+  Future<Categories> getAllCategories(ServiceCall call, Empty request) async =>
+  Categories()..categories.addAll(categoriesServices.getCategories()!);
 
   @override
   Future<Items> getAllItems(ServiceCall call, Empty request) {
