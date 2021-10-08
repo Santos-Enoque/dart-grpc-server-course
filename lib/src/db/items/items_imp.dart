@@ -34,8 +34,9 @@ class ItemsServices implements IItemsServices {
 
   @override
   List<Item>? getItems() {
-    // TODO: implement getItems
-    throw UnimplementedError();
+      return items.map((item) {
+      return helper.getItemFromMap(item);
+    }).toList();
   }
 
   @override

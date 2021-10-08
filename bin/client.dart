@@ -39,6 +39,11 @@ class Client {
 
       switch (option) {
         case 1:
+                response = await stub!.getAllItems(Empty());
+          print(' --- Store products --- ');
+          response.items.forEach((item) {
+            print('✅: ${item.name} (id: ${item.id} | categoryId: ${item.categoryId})');
+          });
           break;
         case 2:
          print('Enter product name');
