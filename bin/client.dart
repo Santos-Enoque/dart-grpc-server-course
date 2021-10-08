@@ -71,6 +71,21 @@ class Client {
 
           break;
         case 3:
+        print('Enter product name');
+          var name = stdin.readLineSync()!;
+          var item = await _findItemByName(name);
+          if(item.id != 0){
+            print('Enter new product name');
+           name = stdin.readLineSync()!;
+           response = await stub!.editItem(Item(id: item.id, name: name, categoryId: item.categoryId));
+           if(response.name == name){
+           print('✅ product updated | name ${response.name} | id ${response.id}');
+           }else{
+            print('🔴 product update failed 🥲');
+           }
+          }else{
+            print('🔴 product $name not found, try creating it!');
+          }
           break;
         case 4:
                    print('Enter product name');

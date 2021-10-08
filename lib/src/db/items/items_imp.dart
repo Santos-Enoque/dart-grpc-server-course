@@ -16,8 +16,14 @@ class ItemsServices implements IItemsServices {
 
   @override
   Item? editItem(Item item) {
-    // TODO: implement editItem
-    throw UnimplementedError();
+       try {
+      var itemIndex =
+          items.indexWhere((element) => element['id'] == item.id);
+      items[itemIndex]['name'] = item.name;
+    } catch (e) {
+      print('🔴 ERROR:: $e');
+    }
+    return item;
   }
 
   @override
