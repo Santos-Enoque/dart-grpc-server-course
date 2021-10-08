@@ -10,8 +10,8 @@ class ItemsServices implements IItemsServices {
 
   @override
   Empty? deleteItem(Item item) {
-    // TODO: implement deleteItem
-    throw UnimplementedError();
+    items.removeWhere((element) => element['id'] == item.id);
+    return Empty();
   }
 
   @override

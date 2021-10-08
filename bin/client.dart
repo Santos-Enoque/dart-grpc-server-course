@@ -98,6 +98,15 @@ class Client {
           }
           break;
         case 5:
+               print('Enter product name');
+          var name = stdin.readLineSync()!;
+          var item = await _findItemByName(name);
+          if(item.id != 0){
+            await stub!.deleteItem(item);
+            print('✅ item deleted');
+          }else{
+            print('🔴 product $name does not exist ');
+          }
           break;
         case 6:
            response = await stub!.getAllCategories(Empty());
