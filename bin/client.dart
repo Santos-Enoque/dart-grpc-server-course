@@ -101,6 +101,15 @@ class Client {
           }
           break;
         case 10:
+               print('Enter category name');
+          var name = stdin.readLineSync()!;
+          var category = await _findCategoryByName(name);
+          if(category.id != 0){
+            await stub!.deleteCategory(category);
+            print('✅ category deleted');
+          }else{
+            print('🔴 category $name not found ');
+          }
           break;
         case 11:
           break;
