@@ -71,6 +71,24 @@ class Client {
           }
           break;
         case 8:
+                      print('Enter category name');
+          var name = stdin.readLineSync()!;
+          var category = await _findCategoryByName(name);
+          if(category.id != 0){
+            print('Enter new category name');
+           name = stdin.readLineSync()!;
+           response = await stub!.editCategory(Category(id: category.id, name: name));
+           if(response.name == name){
+                         print('✅ category updated | name ${response.name} | id ${response.id}');
+
+           }else{
+            print('🔴 category update failed 🥲');
+
+           }
+
+          }else{
+            print('🔴 category $name not found, try creating it!');
+          }
           break;
         case 9:
             print('Enter category name');

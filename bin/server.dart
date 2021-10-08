@@ -24,10 +24,8 @@ class GroceriesService extends GroceriesServiceBase{
   }
 
   @override
-  Future<Category> editCategory(ServiceCall call, Category request) {
-    // TODO: implement editCategory
-    throw UnimplementedError();
-  }
+  Future<Category> editCategory(ServiceCall call, Category request) async =>
+  categoriesServices.editCategory(request)!;
 
   @override
   Future<Item> editItem(ServiceCall call, Item request) {
