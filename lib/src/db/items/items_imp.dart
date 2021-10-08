@@ -22,14 +22,22 @@ class ItemsServices implements IItemsServices {
 
   @override
   Item? getItemById(int id) {
-    // TODO: implement getItemById
-    throw UnimplementedError();
+     var item = Item();
+    var result = items.where((element) => element['id'] == id).toList();
+    if (result.isNotEmpty) {
+      item = helper.getItemFromMap(result.first);
+    }
+    return item;
   }
 
   @override
   Item? getItemByName(String name) {
-    // TODO: implement getItemByName
-    throw UnimplementedError();
+     var item = Item();
+    var result = items.where((element) => element['name'] == name).toList();
+    if (result.isNotEmpty) {
+      item = helper.getItemFromMap(result.first);
+    }
+    return item;
   }
 
   @override

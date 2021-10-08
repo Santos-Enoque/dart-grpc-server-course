@@ -73,6 +73,14 @@ class Client {
         case 3:
           break;
         case 4:
+                   print('Enter product name');
+          var name = stdin.readLineSync()!;
+          var item = await _findItemByName(name);
+          if(item.id != 0){
+            print('✅ product found | name ${item.name} | id ${item.id} | category id ${item.categoryId}');
+          }else{
+            print('🔴 product not found | no product matches the name $name');
+          }
           break;
         case 5:
           break;
