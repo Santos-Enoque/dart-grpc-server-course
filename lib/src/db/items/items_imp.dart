@@ -55,7 +55,9 @@ class ItemsServices implements IItemsServices {
 
   @override
   List<Item>? getItemsByCategory(int categoryId) {
-    // TODO: implement getItemsByCategory
-    throw UnimplementedError();
+       var result = <Item>[];
+    var jsonList = items.where((element) => element['categoryId'] == categoryId).toList();
+    result = jsonList.map((item) => helper.getItemFromMap(item)).toList();
+    return result;
   }
 }

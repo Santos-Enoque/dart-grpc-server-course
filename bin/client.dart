@@ -172,6 +172,20 @@ class Client {
           }
           break;
         case 11:
+           print('Enter category name');
+          var name = stdin.readLineSync()!;
+          var category = await _findCategoryByName(name);
+          if(category.id != 0){
+            var _result = await stub!.getItemsByCategory(category);
+            print('--- all products of the $name category --- ');
+
+            _result.items.forEach((item) { 
+                         print('👉 ${item.name}');
+            });
+          }else{
+            print('🔴 category $name not found');
+
+          }
           break;
         default:
           print('invalid option 🥲');
