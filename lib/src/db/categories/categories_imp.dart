@@ -28,14 +28,24 @@ class CategoriesServices implements ICategoriesServices{
 
   @override
   Category? getCategoryById(int id) {
-    // TODO: implement getCategoryById
-    throw UnimplementedError();
+           var category = Category();
+    var result =
+        categories.where((element) => element['id'] == id).toList();
+    if (result.isNotEmpty) {
+      category = helper.getCategoryFromMap(result.first);
+    }
+    return category;
   }
 
   @override
   Category? getCategoryByName(String name) {
-    // TODO: implement getCategoryByName
-    throw UnimplementedError();
+            var category = Category();
+    var result =
+        categories.where((element) => element['name'] == name).toList();
+    if (result.isNotEmpty) {
+      category = helper.getCategoryFromMap(result.first);
+    }
+    return category;
   }
 
 }
