@@ -41,6 +41,29 @@ class Client {
         case 1:
           break;
         case 2:
+         print('Enter product name');
+          var name = stdin.readLineSync()!;
+          var item = await _findItemByName(name);
+          if(item.id != 0){
+            print('🔴 product already exists: name ${item.name} | id: ${item.id} ');
+          }else{
+             print('Enter product\'s category name');
+          var categoryName = stdin.readLineSync()!;
+          var category = await _findCategoryByName(categoryName);
+          if(category.id == 0){
+            print('🔴 category $categoryName does not exists, try creating it first');
+          }else{
+           item = Item()
+           ..name = name
+           ..id = _randomId()
+           ..categoryId = category.id;
+           response = await stub!.createItem(item);
+        print('✅ product created | name ${response.name} | id ${response.id} | category id ${response.categoryId}');
+          }
+
+          }
+
+
           break;
         case 3:
           break;

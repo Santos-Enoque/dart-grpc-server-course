@@ -6,10 +6,8 @@ class GroceriesService extends GroceriesServiceBase{
   Future<Category> createCategory(ServiceCall call, Category category) async => categoriesServices.createCategory(category)!;
 
   @override
-  Future<Item> createItem(ServiceCall call, Item request) {
-    // TODO: implement createItem
-    throw UnimplementedError();
-  }
+  Future<Item> createItem(ServiceCall call, Item request) async =>
+  itemsServices.createItem(request)!;
 
   @override
   Future<Empty> deleteCategory(ServiceCall call, Category request) async =>
